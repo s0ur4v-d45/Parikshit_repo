@@ -3,7 +3,6 @@ package com.exam.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -29,6 +28,20 @@ public class User{
 		this.phone = phone;
 		this.enabled = enabled;
 		this.profile = profile;
+	}
+
+	public User(Long id, String username, String password, String firstName, String lastName, String email,
+			String phone, String profile, Set<UserRole> userRoles) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.profile = profile;
+		this.userRoles = userRoles;
 	}
 
 	private String password;
