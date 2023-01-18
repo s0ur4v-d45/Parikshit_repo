@@ -12,40 +12,35 @@ import com.exam.repo.UserRepository;
 import com.exam.services.UserService;
 
 @Service
-public class UserServiceImpl implements UserService
-{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	public User createUser(User user, Set<UserRole> userRoles) throws Exception {
 		// TODO Auto-generated method stub
 		User local = this.userRepository.findByUsername(user.getUsername());
-		
-		if(local!=null)
-		{
+
+		if (local != null) {
 			System.out.println("user already there!!");
 			throw new Exception("user already there");
-			
-		}
-		else
-		{
-			//user create
-			for(UserRole ur:userRoles) {
+
+		} else {
+			// user create
+			for (UserRole ur : userRoles) {
 				roleRepository.save(ur.getRole());
 			}
-			
-                user.getUserRoles().addAll(userRoles);
 
-                local = this.userRepository.save(user);
-            
-			
+			user.getUserRoles().addAll(userRoles);
+
+			local = this.userRepository.save(user);
+
 		}
-		
-		return null;
+
+		return local;
 	}
 
 	@Override
@@ -58,7 +53,7 @@ public class UserServiceImpl implements UserService
 	public void deleteUser(Long userId) {
 		// TODO Auto-generated method stub
 		this.userRepository.deleteById(userId);
-		
+
 	}
-	
+
 }

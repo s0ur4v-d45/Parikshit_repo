@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +21,18 @@ import com.exam.model.UserRole;
 import com.exam.services.UserService;
 
 @RestController
-@RequestMapping("/users")
+@CrossOrigin("*")
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
 	//creating user
-	@PostMapping("/user_create")
-	public User createUser(@RequestBody User user) throws Exception {
+	@PostMapping("/")
+	public ResponseEntity<User> createUser(@RequestBody User user) throws Exception {
 	
+		user.setProfile("default.png");
 		Set<UserRole> roles = new HashSet<>();
 		
 		Role role = new Role();
@@ -39,7 +44,8 @@ public class UserController {
 		userRole.setRole(role);
 		
 		roles.add(userRole);
-		return this.userService.createUser(user,roles);
+		User local = this.userService.createUser(user, roles);
+		return new ResponseEntity<>(local,HttpStatus.OK);
 	}
 	
 	@GetMapping("/{userName}")
