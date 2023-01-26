@@ -2,6 +2,7 @@ package com.exam.controller;
 
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class QuizController {
 
 	// get quiz
 	@GetMapping("/")
-	public ResponseEntity<?> quizzes() {
+	public ResponseEntity<Set<Quiz>> quizzes() {
 		return ResponseEntity.ok(this.quizService.getQuizzes());
 	}
 
