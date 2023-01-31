@@ -37,6 +37,7 @@ public class QuestionController {
 	// add question
 	@PostMapping("/")
 	public ResponseEntity<Question> add(@RequestBody Question question) {
+		question.setContent(question.getContent().replace("<p>", "").replace("</p>", ""));
 		return ResponseEntity.ok(this.service.addQuestion(question));
 	}
 
@@ -48,15 +49,10 @@ public class QuestionController {
 	// get all question of any qid
 	@GetMapping("/quiz/{qid}")
 	public ResponseEntity<?> getQuestionOfQuiz(@PathVariable("qid") Long qid) {
-//		Quiz quiz = new Quiz();
-//		quiz.setQid(qid);
-//		Set<Question> questionsOfQuiz = this.service.getQuestionsOfQuiz(quiz);
-		
-		
-		
-		
+	
 		  Quiz quiz1 = this.quizService.getQuiz(qid); 
 		  Set<Question> questions = quiz1.getQuestions();
+		  @SuppressWarnings("unchecked")
 		  List list = new ArrayList(questions);
 		  
 		  if (list.size() > Integer.parseInt(quiz1.getNumberOfQuestions())) {

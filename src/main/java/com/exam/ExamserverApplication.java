@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.exam.model.Role;
@@ -17,6 +18,7 @@ import com.exam.services.UserService;
 
 @SpringBootApplication
 @CrossOrigin("*")
+@EnableTransactionManagement
 public class ExamserverApplication implements CommandLineRunner{
 	
 	@Autowired
