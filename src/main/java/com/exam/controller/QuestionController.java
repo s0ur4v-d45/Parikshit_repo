@@ -53,11 +53,15 @@ public class QuestionController {
 		  Quiz quiz1 = this.quizService.getQuiz(qid); 
 		  Set<Question> questions = quiz1.getQuestions();
 		  @SuppressWarnings("unchecked")
-		  List list = new ArrayList(questions);
+		  List<Question> list = new ArrayList(questions);
 		  
 		  if (list.size() > Integer.parseInt(quiz1.getNumberOfQuestions())) {
 		  list=list.subList(0, Integer.parseInt(quiz1.getNumberOfQuestions()+1));
 		  }
+		  
+		  list.forEach((q)->{
+			  q.setAnswer("");
+		  });
 		  
 		  Collections.shuffle(list); 
 		  return ResponseEntity.ok (list);
@@ -99,7 +103,9 @@ public class QuestionController {
 		for (Question q : questions) {
 
 			// single questions
-			Question question = this.service.get(q.getQuesId());
+			Question question = this.service.getQuestion(q.getQuesId());
+		    try
+		    {
 			if (question.getAnswer().equals(q.getGivenAnswer())) {
 				// correct
 				correctAnswers++;
@@ -111,10 +117,16 @@ public class QuestionController {
 			if (q.getGivenAnswer() != null) {
 				attempted++;
 			}
+		    }
+		    catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
+		
 		Map<String, Object> map = Map.of("marksGot", marksGot, "correctAnswers", correctAnswers, "attempted",
 				attempted);
+		System.out.println(map.toString());
 		return ResponseEntity.ok(map);
 	}
 }
